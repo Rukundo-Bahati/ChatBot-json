@@ -35,6 +35,7 @@
             flex: 1;
             padding: 10px;
             overflow-y: auto;
+            max-height: 400px; /* Set a maximum height */
         }
         .message {
             margin: 10px 0;
@@ -83,13 +84,32 @@
             border-radius: 20px;
             cursor: pointer;
         }
+        .teach-section {
+            display: none;
+            flex-direction: column;
+            padding: 10px;
+            border-top: 1px solid #ddd;
+        }
+        .teach-section input {
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 20px;
+            border: 1px solid #ddd;
+            outline: none;
+        }
+        .teach-section button {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
     <div class="chat-container">
-        <div class="chat-header">
-            Chatbot
-        </div>
+        <div class="chat-header">Chatbot</div>
         <div class="chat-messages" id="chatMessages">
             <!-- Messages will appear here -->
         </div>
@@ -97,17 +117,23 @@
             <input type="text" id="userInput" placeholder="Type your message..." />
             <button onclick="sendMessage()">Send</button>
         </div>
+        <div class="teach-section" id="teachSection">
+            <input type="text" id="teachAnswer" placeholder="Teach me the correct answer..." />
+            <button onclick="submitTraining()">Teach</button>
+        </div>
     </div>
 
     <script>
+        let lastUserMessage = "";
+
         function sendMessage() {
             const input = document.getElementById("userInput");
             const userMessage = input.value;
             if (userMessage.trim() === "") return;
 
             appendMessage("You", userMessage);
+            lastUserMessage = userMessage; // Store user's question for teaching
 
-            // Fetching response from the server (ensure your backend route `/chat` exists)
             fetch("/chat", {
                 method: "POST",
                 headers: {
@@ -115,38 +141,61 @@
                 },
                 body: JSON.stringify({ question: userMessage })
             })
-            .then(response => {
-                // Ensure the response is in JSON format
-                if (!response.ok) throw new Error('Network response was not ok');
-                return response.json();
-            })
+            .then(response => response.json())
             .then(data => {
-                // Assuming the server returns { response: "Bot's response" }
                 appendMessage("Bot", data.response);
-            })
-            .catch(error => {
-                console.error('There was a problem with the fetch operation:', error);
-                appendMessage("Bot", "Sorry, I couldn't process your request.");
+
+                if (data.response === "I don't know the answer. Can you teach me?") {
+                    showTeachSection();  // Show the teach input if bot doesn't know the answer
+                }
             });
 
             input.value = "";
         }
 
         function appendMessage(sender, message) {
-            const chatMessages = document.getElementById("chatMessages");
+            const messagesDiv = document.getElementById("chatMessages");
             const messageDiv = document.createElement("div");
-            messageDiv.classList.add('message', sender === 'You' ? 'user' : 'bot');
-
-            const messageContent = document.createElement('div');
-            messageContent.classList.add('message-content');
-            messageContent.textContent = `${sender}: ${message}`;
-
-            messageDiv.appendChild(messageContent);
-            chatMessages.appendChild(messageDiv);
-
-            // Scroll to the bottom of the chat
-            chatMessages.scrollTop = chatMessages.scrollHeight;
+            messageDiv.className = "message " + (sender === "You" ? "user" : "bot");
+            const contentDiv = document.createElement("div");
+            contentDiv.className = "message-content";
+            contentDiv.innerText = message;
+            messageDiv.appendChild(contentDiv);
+            messagesDiv.appendChild(messageDiv);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
         }
+
+        function showTeachSection() {
+            document.getElementById("teachSection").style.display = "flex";
+        }
+
+        function submitTraining() {
+            const teachAnswer = document.getElementById("teachAnswer").value;
+            if (teachAnswer.trim() === "") return;
+
+            fetch("/teach", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ question: lastUserMessage, answer: teachAnswer })
+            })
+            .then(response => response.json())
+            .then(data => {
+                appendMessage("Bot", data.message);
+                document.getElementById("teachSection").style.display = "none"; // Hide teach section after submitting
+            });
+
+            document.getElementById("teachAnswer").value = "";
+        }
+
+        // Add event listener for Enter key press
+        document.getElementById("userInput").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault(); // Prevents the default action of Enter key (like form submission)
+                sendMessage(); // Call the sendMessage function
+            }
+        });
     </script>
 </body>
 </html>

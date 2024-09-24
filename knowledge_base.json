@@ -2,19 +2,39 @@
   "questions": [
     {
       "question": "What is the capital city of Rwanda?",
-      "answer": "Kigali"
+      "answer": ["Kigali"]
     },
     {
       "question": "What is the color of the sky?",
-      "answer": "blue"
+      "answer": ["blue"]
+    },
+     {
+      "question": "What is the capital of the United States?",
+      "answer": ["The capital of the United States is Washington, D.C."]
+    },
+    {
+      "question": "What is America known for?",
+      "answer": ["America is known for its rich cultural diversity, innovation, and as a global superpower."]
+    },
+    {
+      "question": "Who was the first president of the United States?",
+      "answer": ["George Washington was the first president of the United States."]
+    },
+    {
+      "question": "What are some popular tourist destinations in America?",
+      "answer": ["Popular tourist destinations in America include New York City, the Grand Canyon, and Disney World."]
     },
     {
       "question": "How are you?",
-      "answer": "I'm doing great"
+      "answer": ["I'm doing great"]
+    },
+     {
+      "question": "Who is the president of Rwanda?",
+      "answer": ["The current president of Rwanda is Paul Kagame."]
     },
     {
       "question": "What's up?",
-      "answer": "Not much! How about you?"
+      "answer": ["Not much! How about you?"]
     },
     {
       "question": "Hello",
@@ -22,11 +42,27 @@
     },
     {
       "question": "hi",
-      "answer": "Hi. How are you doing?"
+      "answer": ["Hi. How are you doing?"]
     },
     {
       "question": "i am fine",
-      "answer": "how can i help you ?"
+      "answer": ["how can i help you ?"]
+    },
+    {
+      "question": "great",
+      "answer": ["Good.  How can i assist you today?"]
+    },
+    {
+      "question": "who is the first richest man in the world?",
+      "answer": ["currently , he is Elon Musk"]
+    },
+    {
+      "question": "hey",
+      "answer": ["Hi there!"]
+    },
+    {
+      "question": "good morning",
+      "answer": ["Good morning"]
     }
   ]
 }
