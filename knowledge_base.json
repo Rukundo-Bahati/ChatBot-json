@@ -1,0 +1,32 @@
+{
+  "questions": [
+    {
+      "question": "What is the capital city of Rwanda?",
+      "answer": "Kigali"
+    },
+    {
+      "question": "What is the color of the sky?",
+      "answer": "blue"
+    },
+    {
+      "question": "How are you?",
+      "answer": "I'm doing great"
+    },
+    {
+      "question": "What's up?",
+      "answer": "Not much! How about you?"
+    },
+    {
+      "question": "Hello",
+      "answer": "Hi"
+    },
+    {
+      "question": "hi",
+      "answer": "Hi. How are you doing?"
+    },
+    {
+      "question": "i am fine",
+      "answer": "how can i help you ?"
+    }
+  ]
+}
